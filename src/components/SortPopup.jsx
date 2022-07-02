@@ -1,9 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 
-function SortPopup({ items }) {
+const SortPopup = React.memo(function SortPopup({ items }) {
   const [popupVisible, setPopupVisible] = useState(false);
   const [activeItem, setActiveItem] = useState(0);
-  const activeLabel = items[activeItem];
+  const activeLabel = items[activeItem].name;
   const sortRef = useRef();
 
   const toggleVisiblePoppup = () => {
@@ -45,26 +45,24 @@ function SortPopup({ items }) {
       {popupVisible && (
         <div className="sort__popup">
           <ul>
-            {items.map((item, idx) => (
-              <li
-                onClick={() => {
-                  onSelectItem(idx);
-                  setPopupVisible(false);
-                }}
-                key={item}
-                className={activeItem === idx ? "active" : ""}
-              >
-                {item}
-              </li>
-            ))}
-            {/* <li className="active">популярности</li>
-            <li>цене</li>
-            <li>алфавиту</li> */}
+            {items &&
+              items.map((obj, idx) => (
+                <li
+                  onClick={() => {
+                    onSelectItem(idx);
+                    setPopupVisible(false);
+                  }}
+                  key={obj.type}
+                  className={activeItem === idx ? "active" : ""}
+                >
+                  {obj.name}
+                </li>
+              ))}
           </ul>
         </div>
       )}
     </div>
   );
-}
+});
 
 export default SortPopup;
